@@ -92,8 +92,8 @@ jobs:
           ECR_REPOSITORY: mdaca/ohdsi/achilles
         run: |
           trivy image --severity HIGH,CRITICAL $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
-          trivy image --format json $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG > OHDSI-Achilles.json
-          jq -r '.Results[] | select(.Vulnerabilities != null) | .Vulnerabilities[] | [.SeveritySource, .VulnerabilityID, .PkgName, .PkgPath, .InstalledVersion, .FixedVersion, .Status, .Severity] | @csv' OHDSI-Achilles.json > OHDSI-Achilles-Trivy.csv
+          trivy image --format json $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG > OHDSI-Achilles-Trivy.json
+          jq -r '.Results[] | select(.Vulnerabilities != null) | .Vulnerabilities[] | [.SeveritySource, .VulnerabilityID, .PkgName, .PkgPath, .InstalledVersion, .FixedVersion, .Status, .Severity] | @csv' OHDSI-Achilles-Trivy.json > OHDSI-Achilles-Trivy.csv
 
 
       - name: Install Syft
@@ -117,3 +117,4 @@ jobs:
           path: |
             OHDSI-Achilles-Trivy.csv
             OHDSI-Achilles-sbom.tf
+            OHDSI-Achilles-Trivy.json
