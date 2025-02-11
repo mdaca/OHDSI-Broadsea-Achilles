@@ -47,13 +47,11 @@ COPY --chown=achilles --chmod=755 src/entrypoint.r ./
 WORKDIR /tmp
 
 # Patched CVE-2024-1597 CVE-2024-32888 CVE-2022-21724 & CVE-2022-31197
-RUN rm -f /usr/local/lib/R/site-library/DatabaseConnector/java/postgresql-42.2.18.jar /usr/local/lib/R/site-library/DatabaseConnector/java/redshift-jdbc42-2.1.0.20.jar /usr/local/lib/R/site-library/DatabaseConnector/java/DatabricksJDBC42.jar && \
+RUN rm -f /usr/local/lib/R/site-library/DatabaseConnector/java/postgresql-42.2.18.jar /usr/local/lib/R/site-library/DatabaseConnector/java/redshift-jdbc42-2.1.0.20.jar  && \
     wget https://s3.amazonaws.com/redshift-downloads/drivers/jdbc/2.1.0.30/redshift-jdbc42-2.1.0.30.zip && \
     unzip redshift-jdbc42-2.1.0.30.zip && \
-    wget https://databricks-bi-artifacts.s3.us-east-2.amazonaws.com/simbaspark-drivers/jdbc/2.7.1/DatabricksJDBC42-2.7.1.1004.zip && \
-    unzip DatabricksJDBC42-2.7.1.1004.zip && \
     mv redshift-jdbc42-2.1.0.30.jar /usr/local/lib/R/site-library/DatabaseConnector/java/ && \
-    mv DatabricksJDBC42.jar /usr/local/lib/R/site-library/DatabaseConnector/java/ && \
+    rm /usr/local/lib/R/site-library/DatabaseConnector/java/DatabricksJDBC42.jar && \
     wget https://repo1.maven.org/maven2/org/postgresql/postgresql/42.3.9/postgresql-42.3.9.jar && \
     mv postgresql-42.3.9.jar /usr/local/lib/R/site-library/DatabaseConnector/java/postgresql-42.3.9.jar && \
     rm -Rf /tmp/*
