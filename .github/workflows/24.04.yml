@@ -24,7 +24,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          IMAGE_TAG: 1.7.2.2.0
+          IMAGE_TAG: 1.7.2.3.0
           ECR_REPOSITORY: mdaca/ohdsi/achilles
         run: |
           # Set ENV for AW Cred
@@ -68,7 +68,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          IMAGE_TAG: 1.7.2.2.0
+          IMAGE_TAG: 1.7.2.3.0
           ECR_REPOSITORY: mdaca/ohdsi/achilles
         run: |
           # Set ENV for AW Cred
@@ -90,7 +90,7 @@ jobs:
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          IMAGE_TAG: 1.7.2.2.0
+          IMAGE_TAG: 1.7.2.3.0
           ECR_REPOSITORY: mdaca/ohdsi/achilles
         run: |
           trivy image $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
@@ -106,7 +106,7 @@ jobs:
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          IMAGE_TAG: 1.7.2.2.0
+          IMAGE_TAG: 1.7.2.3.0
           ECR_REPOSITORY: mdaca/ohdsi/achilles
         run: |
           syft $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
