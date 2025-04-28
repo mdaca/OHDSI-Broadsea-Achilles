@@ -1,4 +1,4 @@
-FROM 201959883603.dkr.ecr.us-east-2.amazonaws.com/mdaca/base-images/ironbank-ubuntu-r:24.04_4.4.1 AS build
+FROM 201959883603.dkr.ecr.us-east-2.amazonaws.com/mdaca/base-images/ironbank-ubuntu-r:24.04_4.4.3 AS build
 
 WORKDIR /opt/achilles
 ENV DATABASECONNECTOR_JAR_FOLDER=/usr/local/lib/R/site-library/DatabaseConnector/java/
@@ -58,14 +58,14 @@ RUN rm -f /usr/local/lib/R/site-library/DatabaseConnector/java/postgresql-42.2.1
     
 
     
-FROM 201959883603.dkr.ecr.us-east-2.amazonaws.com/mdaca/base-images/ironbank-ubuntu:24.04
+FROM 201959883603.dkr.ecr.us-east-2.amazonaws.com/mdaca/base-images/ironbank-ubuntu:24.04_fips
 
 
 WORKDIR /opt/achilles
 ENV DATABASECONNECTOR_JAR_FOLDER=/usr/local/lib/R/site-library/DatabaseConnector/java/
 ENV DEBIAN_FRONTEND=noninteractive
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-ENV LD_LIBRARY_PATH=$JAVA_HOME/lib/server:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH="$JAVA_HOME/lib/server:/usr/local/ssl/lib64:$LD_LIBRARY_PATH"
 
 RUN apt-get update -y && \
     apt-get install --no-install-recommends -y \
@@ -83,8 +83,7 @@ COPY --from=build --chown=achilles /opt/achilles /opt/achilles
 COPY --from=build --chown=achilles /usr/local/bin /usr/local/bin
 COPY --from=build --chown=achilles /usr/local/lib /usr/local/lib
 
-RUN ln -s /usr/local/lib/R/site-library/DatabaseConnector/java drivers
-
+RUN ln -s /usr/local/lib/R/site-library/DatabaseConnector/java drivers && dpkg --remove --force-depends openssl
 # Switch to non-root user
 USER 10001:10001
 
