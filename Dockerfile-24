@@ -9,7 +9,6 @@ ENV LD_LIBRARY_PATH=$JAVA_HOME/lib/server:$LD_LIBRARY_PATH
 # Create necessary directories and set up R configurations
 RUN apt-get update -y && \
     apt-get install --no-install-recommends -y \
-    r-base \
     r-base-dev \
     openjdk-11-jdk-headless && \
     groupadd -g 10001 achilles && \
@@ -60,6 +59,10 @@ RUN rm -f /usr/local/lib/R/site-library/DatabaseConnector/java/postgresql-42.2.1
     
 FROM 201959883603.dkr.ecr.us-east-2.amazonaws.com/mdaca/base-images/ironbank-ubuntu:24.04_fips
 
+COPY --from=build /usr/lib/R /usr/lib/R
+COPY --from=build /usr/local/lib/R /usr/local/lib/R
+COPY --from=build /usr/bin/R /usr/bin/R
+COPY --from=build /usr/bin/Rscript /usr/bin/Rscript
 
 WORKDIR /opt/achilles
 ENV DATABASECONNECTOR_JAR_FOLDER=/usr/local/lib/R/site-library/DatabaseConnector/java/
@@ -69,7 +72,6 @@ ENV LD_LIBRARY_PATH="$JAVA_HOME/lib/server:/usr/local/ssl/lib64:$LD_LIBRARY_PATH
 
 RUN apt-get update -y && \
     apt-get install --no-install-recommends -y \
-    r-base \
     openjdk-11-jdk-headless && \
     groupadd -g 10001 achilles && \
     useradd -m -u 10001 -g achilles achilles && \
